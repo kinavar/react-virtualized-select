@@ -15,7 +15,8 @@ export default class VirtualizedSelect extends Component {
     maxHeight: PropTypes.number,
     optionHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
     optionRenderer: PropTypes.func,
-    selectComponent: PropTypes.func
+    selectComponent: PropTypes.func,
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -55,14 +56,14 @@ export default class VirtualizedSelect extends Component {
         {...this.props}
         ref={this._setSelectRef}
         menuRenderer={this._renderMenu}
-        menuStyle={{ overflow: 'hidden' }}
+        menuStyle={{ overflow: 'visible' }}
       />
     )
   }
 
   // See https://github.com/JedWatson/react-select/#effeciently-rendering-large-lists-with-windowing
   _renderMenu ({ focusedOption, focusOption, labelKey, onSelect, options, selectValue, valueArray, valueKey }) {
-    const { listProps, optionRenderer } = this.props
+    const { listProps, optionRenderer, children } = this.props
     const focusedOptionIndex = options.indexOf(focusedOption)
     const height = this._calculateListHeight({ options })
     const innerRowRenderer = optionRenderer || this._optionRenderer
@@ -94,23 +95,26 @@ export default class VirtualizedSelect extends Component {
     }
 
     return (
-      <AutoSizer disableHeight>
-        {({ width }) => (
-          <List
-            className='VirtualSelectGrid'
-            height={height}
-            ref={this._setListRef}
-            rowCount={options.length}
-            rowHeight={({ index }) => this._getOptionHeight({
-              option: options[index]
-            })}
-            rowRenderer={wrappedRowRenderer}
-            scrollToIndex={focusedOptionIndex}
-            width={width}
-            {...listProps}
-          />
-        )}
-      </AutoSizer>
+      <div>
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <List
+              className='VirtualSelectGrid'
+              height={height}
+              ref={this._setListRef}
+              rowCount={options.length}
+              rowHeight={({ index }) => this._getOptionHeight({
+                option: options[index]
+              })}
+              rowRenderer={wrappedRowRenderer}
+              scrollToIndex={focusedOptionIndex}
+              width={width}
+              {...listProps}
+            />
+            )}
+        </AutoSizer>
+        {children}
+      </div>
     )
   }
 
