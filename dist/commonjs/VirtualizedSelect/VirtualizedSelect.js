@@ -144,7 +144,7 @@ var VirtualizedSelect = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'VirtualSelect_list', style: { overflow: 'hidden' } },
         _react2.default.createElement(
           _AutoSizer2.default,
           { disableHeight: true },

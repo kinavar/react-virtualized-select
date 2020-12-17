@@ -117,7 +117,7 @@ var VirtualizedSelect = function (_Component) {
 
       return React.createElement(
         'div',
-        null,
+        { className: 'VirtualSelect_list', style: { overflow: 'hidden' } },
         React.createElement(
           AutoSizer,
           { disableHeight: true },

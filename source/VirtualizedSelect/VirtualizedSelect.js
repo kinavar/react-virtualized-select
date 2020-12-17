@@ -95,7 +95,7 @@ export default class VirtualizedSelect extends Component {
     }
 
     return (
-      <div>
+      <div className="VirtualSelect_list" style={{overflow: 'hidden'}}>
         <AutoSizer disableHeight>
           {({ width }) => (
             <List
